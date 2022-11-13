@@ -1,3 +1,4 @@
+
 a = input().split()
 k = 0
 for i in range(len(a)):
