@@ -1,30 +1,27 @@
 import sys
 
-n = int(sys.stdin.readline())
-path = [[] for _ in range(n + 1)]
-for _ in range(n - 1):
+
+def dfs(cur):
+    global ans
+    d[cur] = 1
+    for i in v[cur]:
+        if not d[i]:
+            d[cur] += dfs(i)
+    ans += ret(N) - ret(N - d[cur])
+    return d[cur]
+
+def ret(n):
+    return n * (n - 1) // 2
+
+N = int(sys.stdin.readline())
+v = [[] for _ in range(N + 1)]
+d = [0] * (N + 1)
+ans = 0
+
+for _ in range(N - 1):
     a, b = map(int, sys.stdin.readline().split())
-    path[a].append(b)
-    path[b].append(a)
+    v[a].append(b)
+    v[b].append(a)
 
-short_path = [set() for _ in range(n + 1)]
-visited = [False] * (n + 1)
-
-
-def dfs(now, pathstack):
-    short_path[now] = short_path[now].union(pathstack)
-    for nex in path[now]:
-        if not visited[nex]:
-            visited[nex] = True
-            pathstack.add(nex)
-            dfs(nex, pathstack)
-            pathstack.remove(nex)
-
-
-visited[1] = True
-dfs(1, {1})
-count = 0
-for i in range(1, n + 1):
-    for j in range(i + 1, n + 1):
-        count += len(short_path[i].union(short_path[j])) - 1
-print(count)
+dfs(1)
+print(ans - ret(N))
