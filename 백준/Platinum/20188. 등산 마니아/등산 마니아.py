@@ -7,8 +7,6 @@ for _ in range(n - 1):
     path[a].append(b)
     path[b].append(a)
 
-# 가중합을 떠올릴수 있다.
-# 리프부터 가는 최솟값을 모두 계산해보자.
 short_path = [set() for _ in range(n + 1)]
 visited = [False] * (n + 1)
 
