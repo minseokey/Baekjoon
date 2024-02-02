@@ -1,9 +1,19 @@
-import sys,itertools
-a,b = map(int,sys.stdin.readline().strip().split())
-lis = [i for i in range(1,a + 1)]
+import sys
 
-kk = list(itertools.permutations(lis,b))
+n,m = map(int,sys.stdin.readline().split())
 
+string = ""
+cand = [str(i+1) for i in range(n)]
 
-for j in kk:
-    print(" ".join(str(j[i]) for i in range(b)))
+def back(now):
+    if len(now) == m:
+        print(" ".join(now))
+
+    else:
+        for i in range(len(cand)):
+            if cand[i] not in now:
+                now.append(cand[i])
+                back(now)
+                now.pop()
+
+back([])
