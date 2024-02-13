@@ -3,21 +3,38 @@ import sys
 n = int(sys.stdin.readline())
 lis = list(sys.stdin.readline())
 
-tempR = 0 # 빨강 옴기기
-tempB = 0 # 파랑 옴기기
-
+tempR = 0
+tempB = 0
 Rkey = False
 Bkey = False
-while n >= 0:
-    if lis[n] == "R" and Rkey:
-        tempR += 1
-    if lis[n] == "B" and not Rkey:
-        Rkey = True
-    if lis[n] == "B" and Bkey:
-        tempB += 1
-    if lis[n] == "R" and not Bkey:
-        Bkey = True
-    n -= 1
-print(min(tempR,tempB))
 
+for i in lis[::-1]:
+    if i == "R":
+        if Rkey:
+            tempR += 1
+        if not Bkey:
+            Bkey = True
+    if i == "B":
+        if Bkey:
+            tempB += 1
+        if not Rkey:
+            Rkey = True
 
+tempR_1 = 0
+tempB_1 = 0
+Rkey = False
+Bkey = False
+
+for i in lis:
+    if i == "R":
+        if Rkey:
+            tempR_1 += 1
+        if not Bkey:
+            Bkey = True
+    if i == "B":
+        if Bkey:
+            tempB_1 += 1
+        if not Rkey:
+            Rkey = True
+
+print(min(tempR, tempB, tempR_1, tempB_1))
