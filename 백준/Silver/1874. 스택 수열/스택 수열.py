@@ -1,31 +1,35 @@
-n = int(input())
-arr = []
-for i in range(n):
-    arr.append(int(input()))
+import sys
 
-num = 1
-newlis = []
-addlis = []
-a = True
-for i in range(len(arr)):
-    if not a:
-        print("NO")
-        break
-    assenticnum = arr[i]
-    while(True):
-        if newlis and newlis[-1] == assenticnum:
-            newlis.pop()
-            addlis.append("-")
-            break
+n = int(sys.stdin.readline())
+t_lis = [int(sys.stdin.readline()) for _ in range(n)]
+t_lis.reverse()
+stack = []
+ans = []
+for i in range(1,n+1):
+    while stack:
+        if t_lis[-1] == stack[-1]:
+            t_lis.pop()
+            stack.pop()
+            ans.append("-")
         else:
-            newlis.append(num)
-            addlis.append("+")
-            if num > n:
-                a = False
-                break
-            else:
-                num += 1
+            break
+    stack.append(i)
+    ans.append("+")
 
-if a:
-    for i in addlis:
-        print(i)
+# 마지막 추가로
+while stack:
+    if t_lis[-1] == stack[-1]:
+        t_lis.pop()
+        stack.pop()
+        ans.append("-")
+    else:
+        break
+
+if stack:
+    print("NO")
+else:
+    for p in ans:
+        print(p)
+
+
+
