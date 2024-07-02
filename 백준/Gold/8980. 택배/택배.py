@@ -21,26 +21,21 @@ def cleanqueue():
     for i in range(len(queue)-1, -1, -1):
         if queue[i][1] < temp:
             temp -= queue[i][1]
-        else:
+        elif temp != 0:
             queue[i][1] = temp
             queue = queue[i:]
+            break
 
-weight = 0
+
 ans = 0
 queue = []
 # 큐 내부의 합이 항상 c가 되도록, 지금 넣는거보다 큰게 있으면 지워주면서
 # 맨 뒤의 요소가 가장 작은 요소. reverse = True
 for i in range(1, n+1):
     # 배달 먼저
-    while queue:
+    while queue and queue[-1][0] == i:
         dest, w = queue.pop()
-        if dest == i:
-            ans += w
-            weight -= w
-        else:
-            queue.append([dest, w])
-            break
-
+        ans += w
 
     # 담기
     if i in dic.keys():
