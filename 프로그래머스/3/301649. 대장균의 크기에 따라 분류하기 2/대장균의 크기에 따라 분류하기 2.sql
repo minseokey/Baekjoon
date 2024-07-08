@@ -1,14 +1,26 @@
-with ranktable as (
-    select id, size_of_colony, ntile(4) over(order by size_of_colony) as quantile
+with total_count as (
+    select count(*) as cnt
     from ecoli_data
 )
 
 select ID, 
        case 
-           when quantile = 1 then 'LOW'
-           when quantile = 2 then 'MEDIUM'
-           when quantile = 3 then 'HIGH'
+           when size_of_colony <= (select max(size_of_colony)
+                                   from ecoli_data
+                                   order by size_of_colony
+                                   limit 1 offset (select cnt / 4 - 1 from total_count)
+                                  ) then 'LOW'
+           when size_of_colony <= (select max(size_of_colony)
+                                   from ecoli_data
+                                   order by size_of_colony
+                                   limit 1 offset (select cnt / 2 - 1 from total_count)
+                                  ) then 'MEDIUM'
+           when size_of_colony <= (select max(size_of_colony)
+                                   from ecoli_data
+                                   order by size_of_colony
+                                   limit 1 offset (select cnt / 4 * 3 - 1 from total_count)
+                                  ) then 'HIGH'
            else 'CRITICAL'
        end as colony_name
-from ranktable
-order by id
+from ecoli_data
+order by id;
