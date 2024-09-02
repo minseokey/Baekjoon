@@ -1,40 +1,25 @@
+import heapq
 import sys
-from collections import deque
+from collections import defaultdict
 
-v,e = map(int,sys.stdin.readline().split())
-lis = []
-for i in range(e):
-    start,end,wei = map(int,sys.stdin.readline().split())
-    lis.append([start-1,end-1,wei])
-    lis.append([end-1,start-1,wei])
+v, e = map(int, sys.stdin.readline().split())
+field = defaultdict(list)
 
-lis.sort(key = lambda x : x[2])
-parentlis = [i for i in range(v)]
-
-# 부모가 같니? 같다면 True, 다르면 이제부터 부모는 같게하고(연결) False
-def find(a,b):
-    tempa = parent(a)
-    tempb = parent(b)
-
-    if tempa > tempb:
-        parentlis[tempa] = tempb
-        return True
-    elif tempa < tempb:
-        parentlis[tempb] = tempa
-        return True
-    else:
-        return False
-
-# 부모가 누구니
-def parent(temp):
-    if parentlis[temp] == temp:
-        return temp
-    return parent(parentlis[temp])
-
+for _ in range(e):
+    a, b, c = map(int, sys.stdin.readline().split())
+    field[a].append((b, c))
+    field[b].append((a, c))
 
 ans = 0
-for i in lis:
-    if find(i[0],i[1]):
-        ans += i[2]
+queue = [(0, 1)]
+visited = [False] * (v+1)
+
+while queue:
+    w, now = heapq.heappop(queue)
+    if not visited[now]:
+        ans += w
+        visited[now] = True
+        for nex, nex_w in field[now]:
+            heapq.heappush(queue, (nex_w, nex))
 
 print(ans)
