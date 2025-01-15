@@ -10,6 +10,7 @@ def solution(participant, completion):
         if dic[i] == 0:
             dic.pop(i)
     
+    print(dic.keys())
     return list(dic.keys())[0]
         
     
