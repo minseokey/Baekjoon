@@ -1,10 +1,6 @@
 -- 코드를 작성해주세요
-select item_id, item_name, rarity
-from item_info join item_tree using(item_id)
-where parent_item_id in (select ITEM_ID
-                        from item_info  
-                        where rarity = "RARE" and item_id in (select parent_item_id
-                                                              from item_tree
-                                                              where parent_item_id is not null))
+Select c.Item_ID, c.item_name, c.rarity
+from item_Info as p join item_tree as t on p.ITEM_ID = t.PARENT_ITEM_ID join ITEM_INFO as c on c.Item_ID = t.Item_ID
+where p.rarity = "RARE"
+order by c.item_id desc
 
-order by item_id desc
