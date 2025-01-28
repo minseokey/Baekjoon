@@ -1,5 +1,5 @@
 -- 코드를 작성해주세요
-select son.id as ID, son.genotype as GENOTYPE , parent.genotype as PARENT_GENOTYPE
-from ecoli_data parent join ecoli_data son on parent.id = son.parent_id
-where parent.genotype & ~son.genotype = 0
-order by ID
+select c.id as id, c.genotype as genotype, p.genotype as PARENT_GENOTYPE
+from ecoli_data as p join ecoli_data as c on p.id = c.parent_id
+where p.genotype & c.genotype = p.genotype
+
