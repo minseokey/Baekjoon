@@ -1,8 +1,9 @@
 -- 코드를 작성해주세요
-select ID, fish_name, length
-from fish_name_info join fish_info using (fish_type)
-where (length, fish_type) in (select max(length), fish_type
-                               from fish_info
-                               group by fish_type)
-                               
-order by id
+select fi.id, fni.fish_name, fi.length  
+from fish_info fi join fish_name_info fni using(fish_type)
+where fi.id = (select id
+               from fish_info
+               where fi.fish_type = fish_type
+               order by length desc
+               limit 1)
+order by fi.id
