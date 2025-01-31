@@ -1,7 +1,6 @@
 -- 코드를 입력하세요
-SELECT PRODUCT_ID,PRODUCT_NAME,price * sum(amount) as total_sales
-From Food_product join (select *
-                        from food_order
-                        where produce_date between "2022-05-01" and "2022-05-31") as o using(product_id)
+SELECT PRODUCT_ID, PRODUCT_NAME, sum(amount) * price  as TOTAL_SALES
+from FOOD_PRODUCT join FOOD_ORDER using(PRODUCT_ID)
+where date_format(PRODUCE_DATE, "%Y-%m") = "2022-05"
 group by product_id
 order by total_sales desc, product_id
