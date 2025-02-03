@@ -1,21 +1,11 @@
-with hr_grade_with as (
-    select emp_no, avg(score) as sc
-    from hr_grade
-    group by emp_no)
-
-select emp_no, emp_name,
-    case when sc >= 96 then "S"
-         when sc >= 90 then "A"
-         when sc >= 80 then "B"
-         else "C"
-         end as "GRADE",
-    
-    case when sc >= 96 then (sal/100)*20
-         when sc >= 90 then (sal/100)*15
-         when sc >= 80 then (sal/100)*10
-         else 0
-         end as "BONUS"
-from hr_employees join hr_grade_with using(emp_no)
-
-
-order by emp_no
+-- 코드를 작성해주세요
+select EMP_NO, EMP_NAME, case when avg(score) >= 96 then "S"
+                             when avg(score) >= 90 then "A"
+                             when avg(score) >= 80 then "B"
+                            else "C" end as GRADE, 
+                        case when avg(score) >= 96 then sal * 0.2
+                             when avg(score) >= 90 then sal * 0.15
+                             when avg(score) >= 80 then sal * 0.1
+                            else 0 end as BONUS
+from HR_DEPARTMENT d join HR_EMPLOYEES e using(dept_id) join HR_GRADE g using(emp_no)
+group by emp_no, emp_name
