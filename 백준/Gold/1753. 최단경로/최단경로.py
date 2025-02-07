@@ -1,34 +1,29 @@
 import heapq
 import sys
+from collections import defaultdict
 
-node,vertex = map(int,sys.stdin.readline().split())
-start = int(sys.stdin.readline())
-dic = dict()
-for i in range(vertex):
-    temp = list(map(int,sys.stdin.readline().split()))
-    if temp[0] not in dic.keys():
-        dic[temp[0]] = [[temp[1],temp[2]]]
-    else:
-        dic[temp[0]].append([temp[1],temp[2]])
+v, e = map(int, sys.stdin.readline().split())
+k = int(sys.stdin.readline())
 
-def dijk(start,lis):
-    q = []
-    heapq.heappush(q,(0,start))
-    lis[start] = 0
-    while q:
-        nowdist,nownode = heapq.heappop(q)
-        if nownode in dic.keys():
-            for i in dic[nownode]:
-                newdist = i[1] + lis[nownode]
-                if lis[i[0]] > newdist:
-                    lis[i[0]] = newdist
-                    heapq.heappush(q,(newdist,i[0]))
+field = defaultdict(list)
+for _ in range(e):
+    a, b, c = map(int, sys.stdin.readline().split())
+    field[a].append((b, c))
 
-lis = [float('inf') for i in range(node+1)]
-dijk(start,lis)
 
-for i in range(1,len(lis)):
-    if lis[i] == float('inf'):
+dist = [float('INF')] * (v + 1)
+dist[k] = 0
+queue = [(0, k)]
+
+while queue:
+    wei, now = heapq.heappop(queue)
+    for nex, nex_w in field[now]:
+        if dist[nex] > dist[now] + nex_w:
+            dist[nex] = dist[now] + nex_w
+            heapq.heappush(queue, (dist[nex], nex))
+
+for i in range(1,len(dist)):
+    if dist[i] == float('INF'):
         print("INF")
     else:
-        print(lis[i])
+        print(dist[i])
