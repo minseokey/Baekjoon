@@ -8,6 +8,7 @@ public class Main{
 
         // 에라토스테네스의 체 만들기.
         ArrayList<Integer> prime = new ArrayList<>();
+        ArrayList<Integer> newP = new ArrayList<>();
         for(int i = 2; i <= n; i ++){
             prime.add(i);
         }
@@ -15,6 +16,7 @@ public class Main{
         for(int i = 0; i < prime.size(); i++){
             if(prime.get(i) != 0){
                 int now = prime.get(i);
+                newP.add(now);
                 for (int j = i+now; j < prime.size(); j+=now){
                     prime.set(j,0);
                 }
@@ -22,23 +24,21 @@ public class Main{
         }
         ArrayList<Integer> ans = new ArrayList<>();
 
-        for(int i = 0; i < prime.size(); i++){
-            if(prime.get(i) != 0){
-                while(true){
-                    if(n%prime.get(i) == 0){
-                        ans.add(prime.get(i));
-                        n /= prime.get(i);
-                    }
-                    else {
-                        break;
-                    }
+        for(int i : newP){
+            while(true){
+                if(n%i == 0){
+                    ans.add(i);
+                    n /= i;
                 }
-                if(n == 0){
+                else {
                     break;
                 }
             }
+            if(n == 0){
+                break;
+            }
         }
-        for(Integer i: ans){
+        for(int i: ans){
             System.out.println(i);
         }
     }
