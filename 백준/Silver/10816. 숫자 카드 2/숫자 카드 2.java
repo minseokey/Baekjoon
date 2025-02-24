@@ -1,41 +1,31 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.util.HashMap;
-import java.io.IOException; 
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
+import java.util.*;
+
+public class Main{
+    static int n,m;
+    static int[] mlis;
+    static HashMap<Integer,Integer> nlis = new HashMap<>();
+    static ArrayList<List<String>> input = new ArrayList<>();
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        n = Integer.parseInt(br.readLine());
+        int[] tmp = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        for(Integer i : tmp){
+            nlis.put(i, nlis.getOrDefault(i,0) + 1);
+        }
+        m = Integer.parseInt(br.readLine());
+        mlis = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
 
 
 
-public class Main {
-	public static void main(String[] args)throws IOException {
+        for(int i = 0; i < m; i ++){
+            bw.write(String.valueOf(nlis.getOrDefault(mlis[i],0))+ " ");
+        }
 
-		BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		int onum = Integer.parseInt(scanner.readLine());
-		String[] oarr = scanner.readLine().split(" ");
-		int dnum = Integer.parseInt(scanner.readLine());
-		String[] darr = scanner.readLine().split(" ");
-
-		
-		HashMap<String,Integer> hash = new HashMap<String,Integer>();
-		for(int i = 0; i < onum; i++){
-			if(hash.containsKey(oarr[i])){
-				hash.put(oarr[i],hash.get(oarr[i])+1);
-			} 
-			else{
-				hash.put(oarr[i],1);
-			}
-		}
-		for(int i = 0; i < dnum; i ++){
-			if(hash.containsKey(darr[i])){
-				bw.write((hash.get(darr[i]) +" "));
-			}
-			else{
-				bw.write(0 +" ");
-			}
-		}
-		bw.flush();
-		bw.close();
-	}
+        bw.flush();
+        bw.close();
+        br.close();
+    }
 }
