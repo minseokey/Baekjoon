@@ -1,24 +1,27 @@
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
-public class Main {
-	public static void main(String[] args){
-		Scanner scanner = new Scanner(System.in);
-		int num = scanner.nextInt();
-		int [] arr = new int[num*2];
-		for(int i = 1; i <= num; i++){
-			arr[i-1] = i;
-		}
-		for(int i = 0; i < num; i ++){
-			if(i % 2 != 0){
-				num ++;
-				arr[num-1] = arr[i];
-				// System.out.println(arr[i]);
-			}
-			// else{
-			// 	System.out.println(arr[i]);
-			// }
-		}
-		System.out.println(arr[num-1]);
-		scanner.close();
-	}
+
+public class Main{
+    static int n;
+
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        n = Integer.parseInt(br.readLine());
+        Deque<Integer> deque = new ArrayDeque<>();
+        for(int i = 1; i <= n; i++){
+            deque.add(i);
+        }
+
+        while (deque.size() > 1){
+            deque.removeFirst();
+            deque.addLast(deque.removeFirst());
+        }
+
+        bw.write(String.valueOf(deque.getFirst()));
+        bw.flush();
+        bw.close();
+        br.close();
+    }
 }
